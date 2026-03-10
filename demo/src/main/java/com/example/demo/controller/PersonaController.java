@@ -9,78 +9,97 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Persona;
-import com.example.demo.model.Personas;
+import com.example.demo.service.PersonaService;
 
-@RestController //Esta clase maneja peticiones REST.
+import jakarta.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Controlador REST que expone los endpoints para trabajar con personas.
+ * Delegamos la lógica a {@link PersonaService} para mantener MVC.
+ * Permite operaciones GET, POST y PUT.
+ * 
+ * Endpoints:
+ * - GET /persona : devuelve una persona de ejemplo
+ * - POST /envioFormulario : recibe y guarda una persona enviada por parámetros
+ * - GET /persona/{dni} : devuelve una persona por su DNI
+ * - PUT /persona/{dni} : actualiza los datos de una persona existente
+ */
+@RestController
 public class PersonaController {
 
-    private Persona personaGuardada;// Variable global para guardar la última persona enviada
+    private static final Logger logger = LoggerFactory.getLogger(PersonaController.class);
 
-    @GetMapping("/persona")// Endpoint GET /persona devuelve información de una persona
-    public Persona obtenerPersona(){
+    /** Servicio que maneja la lógica de negocio de las personas */
+    private final PersonaService personaService;
 
-        Persona p = new Persona(
-                "Juan",
-                "Perez",
-                "Lopez",
-                "1990-01-01",
-                "Hombre"
-        );
-
-        return p;// Spring lo convierte a JSON y lo devuelve al navegador o Postman
+    /**
+     * Constructor que inyecta {@link PersonaService}.
+     * 
+     * @param personaService servicio de personas
+     */
+    public PersonaController(PersonaService personaService) {
+        this.personaService = personaService;
     }
 
-    @PostMapping("/envioFormulario") // Endpoint POST /envioFormulario recibe datos enviados por el usuario
-    public String recibirDatos(
-            @RequestParam String nombre,
-            @RequestParam String apellido1,
-            @RequestParam String apellido2,
-            @RequestParam String fechaNacimiento,
-            @RequestParam String sexo
-    ){
-
-        // Guardamos los datos recibidos en la variable global
-        personaGuardada = new Persona(nombre, apellido1, apellido2, fechaNacimiento, sexo);
-
-        System.out.println("Datos recibidos:");
-        System.out.println("Nombre: " + nombre);
-        System.out.println("Apellido1: " + apellido1);
-        System.out.println("Apellido2: " + apellido2);
-        System.out.println("Fecha nacimiento: " + fechaNacimiento);
-        System.out.println("Sexo: " + sexo);
-
-        return "Datos recibidos correctamente";// Mensaje que verá el usuario en Postman o navegador
+    /**
+     * Devuelve una persona de ejemplo.
+     * 
+     * @return objeto {@link Persona} en JSON
+     */
+    @GetMapping("/persona")
+    public Persona obtenerPersona() {
+        logger.info("Se solicitó la persona de ejemplo");
+        return personaService.obtenerPersonaEjemplo();
     }
 
+    /**
+     * Recibe datos de una persona por parámetros y la guarda en memoria.
+     * 
+     * @param dni DNI de la persona
+     * @param nombre Nombre de la persona
+     * @param apellido1 Primer apellido
+     * @param apellido2 Segundo apellido
+     * @param fechaNacimiento Fecha de nacimiento (YYYY-MM-DD)
+     * @param sexo Sexo de la persona
+     * @return mensaje confirmando la recepción de datos
+     */
+    @PostMapping("/envioFormulario")
+    public String recibirDatos(@RequestParam String dni, @RequestParam String nombre,
+                            @RequestParam String apellido1, @RequestParam String apellido2,
+                            @RequestParam String fechaNacimiento, @RequestParam String sexo) {
+        logger.info("El usuario con DNI [{}] ha enviado datos para crear una persona", dni);
+        Persona p = new Persona(dni, nombre, apellido1, apellido2, fechaNacimiento, sexo);
+        personaService.guardarPersona(p);
 
-    private Personas personas = new Personas(); // inicializamos con 10 personas
+        logger.info("Persona con DNI [{}] guardada correctamente", dni);
+        return "Datos recibidos correctamente";
+    }
 
-    // GET devuelve la persona por DNI
+    /**
+     * Devuelve los datos de una persona según su DNI.
+     * 
+     * @param dni DNI de la persona a buscar
+     * @return objeto {@link Persona} correspondiente o null si no existe
+     */
     @GetMapping("/persona/{dni}")
     public Persona obtenerPersona(@PathVariable String dni) {
-        for (Persona p : personas.getListaPersonas()) {
-            if (p.getDni().equals(dni)) {
-                return p;
-        }
-    }
-        return null;
+        logger.info("Se solicitó la persona con DNI [{}]", dni);
+        return personaService.obtenerPersonaPorDni(dni);
     }
 
-    // PUT actualiza la persona por DNI usando @RequestBody
+    /**
+     * Actualiza los datos de una persona existente usando {@link Persona} en el body.
+     * 
+     * @param dni DNI de la persona a actualizar
+     * @param pActualizada objeto {@link Persona} con los nuevos datos
+     * @return mensaje confirmando la actualización o indicando que no se encontró la persona
+     */
     @PutMapping("/persona/{dni}")
-    public String actualizarPersona(@PathVariable String dni, @RequestBody Persona pActualizada) {
-        for (int i = 0; i < personas.getListaPersonas().size(); i++) {
-            Persona p = personas.getListaPersonas().get(i);
-            if (p.getDni().equals(dni)) {
-                // reemplazamos los datos
-                p.setNombre(pActualizada.getNombre());
-                p.setApellido1(pActualizada.getApellido1());
-                p.setApellido2(pActualizada.getApellido2());
-                p.setFechaNacimiento(pActualizada.getFechaNacimiento());
-                p.setSexo(pActualizada.getSexo());
-                return "Persona actualizada correctamente";
-            }
-        }
-        return "Persona no encontrada";
+    public String actualizarPersona(@PathVariable String dni, @Valid @RequestBody Persona pActualizada) {
+        logger.info("Solicitud de actualización para persona con DNI [{}]", dni);
+        return personaService.actualizarPersona(dni, pActualizada);
     }
 }

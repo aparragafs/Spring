@@ -3,13 +3,22 @@ package com.example.demo.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que contiene una lista de personas.
+ * Inicializa 10 personas ficticias en memoria.
+ */
 public class Personas {
 
+    // ----------------- Atributos -----------------
     private List<Persona> listaPersonas;
 
+    // ----------------- Constructor -----------------
+
+    /**
+     * Constructor que crea la lista de personas con 10 elementos ficticios.
+     */
     public Personas() {
         listaPersonas = new ArrayList<>();
-        // Inicializamos 10 personas ficticias
         listaPersonas.add(new Persona("11111111A", "Juan", "Perez", "Lopez", "1990-01-01", "Hombre"));
         listaPersonas.add(new Persona("22222222B", "Ana", "Gomez", "Diaz", "1992-03-12", "Mujer"));
         listaPersonas.add(new Persona("33333333C", "Luis", "Martinez", "Santos", "1988-07-23", "Hombre"));
@@ -22,9 +31,10 @@ public class Personas {
         listaPersonas.add(new Persona("10101010J", "Laura", "Ramirez", "Santos", "1996-06-20", "Mujer"));
     }
 
+    // ----------------- Getters y Setters -----------------
+
     public List<Persona> getListaPersonas() { return listaPersonas; }
 
     public void setListaPersonas(List<Persona> listaPersonas) { this.listaPersonas = listaPersonas; }
 
-    
 }
