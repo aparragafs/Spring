@@ -1,6 +1,6 @@
 # Proyecto Spring: Ejercicios de Introducción
 
-Este proyecto contiene los ejercicios de introducción a Spring Boot realizados durante la práctica.  
+Este proyecto contiene los ejercicios de introducción a Spring realizados durante la práctica.  
 Se implementan servicios REST para gestionar información de personas, utilizando GET, POST y PUT.
 
 ---
@@ -91,3 +91,10 @@ Registro de Logs.
 ![Logs](images/Logs1.png)
 
 ![Logs](images/Logs2.png)
+
+## Excepciones
+Excepcion general
+
+![Logs](images/Ex1.png)
+
+
