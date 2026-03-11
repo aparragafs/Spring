@@ -28,6 +28,7 @@ public class PersonaService {
      * 
      * @param dni DNI de la persona a buscar
      * @return objeto {@link Persona} si existe, o null si no se encuentra
+     * @throws RuntimeException si la persona no existe
      */
     public Persona obtenerPersonaPorDni(String dni) {
         logger.info("Buscando persona con DNI [{}]", dni);
@@ -40,7 +41,7 @@ public class PersonaService {
         }
 
         logger.warn("No se encontró persona con DNI [{}]", dni);
-        return null;
+        throw new RuntimeException("Persona no encontrada con DNI: " + dni);
     }
 
     /**
@@ -49,6 +50,7 @@ public class PersonaService {
      * @param dni DNI de la persona a actualizar
      * @param pActualizada objeto {@link Persona} con los nuevos datos
      * @return mensaje indicando si la actualización fue correcta o si no se encontró la persona
+     * @throws RuntimeException si la persona no existe
      */
     public String actualizarPersona(String dni, Persona pActualizada) {
         logger.info("Actualizando persona con DNI [{}]", dni);
@@ -61,7 +63,7 @@ public class PersonaService {
             }
         }
         logger.warn("No se encontró persona con DNI [{}] para actualizar", dni);
-        return "Persona no encontrada";
+        throw new RuntimeException("Persona no encontrada con DNI: " + dni);
     }
 
     /**
