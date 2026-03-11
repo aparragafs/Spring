@@ -61,7 +61,29 @@ Se implementan servicios REST para gestionar información de personas, utilizand
 ![Ejercicio 3 - GET Persona por DNI](images/Postman3-1.png)
 
 - PUT para actualizar persona:  
-![Ejercicio 3 - PUT Persona](images/Postman3-2.png)
+![Ejercicio 3 - PUT Persona](images/Put1.png)
 
 - GET de la persona actualizada:  
-![Ejercicio 3 - GET Persona actualizada](images/Postman3-3.png)
+![Ejercicio 3 - GET Persona actualizada](images/Put2.png)
+
+## Optativos
+## Validaciones
+A continuación se muestran ejemplos de las validaciones.
+
+![Validaciones](images/Validaciones.png)
+
+---
+
+## Documentación Javadoc
+Documentación generada con Javadoc.
+
+![Javadoc](images/javadoc.png)
+
+---
+
+## Sistema de Logs
+Registro de Logs.
+
+![Logs](images/Logs1.png)
+
+![Logs](images/Logs2.png)
