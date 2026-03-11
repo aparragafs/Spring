@@ -68,7 +68,7 @@ Se implementan servicios REST para gestionar información de personas, utilizand
 
 ## Optativos
 ## Validaciones
-A continuación se muestran ejemplos de las validaciones.
+Ejemplos de las validaciones.
 
 ![Validaciones](images/Validaciones.png)
 
@@ -77,7 +77,11 @@ A continuación se muestran ejemplos de las validaciones.
 ## Documentación Javadoc
 Documentación generada con Javadoc.
 
-![Javadoc](images/javadoc.png)
+![Javadoc](images/javadoc1.png)
+
+![Javadoc](images/javadoc2.png)
+
+![Javadoc](images/javadoc3.png)
 
 ---
 
