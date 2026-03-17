@@ -97,4 +97,31 @@ Excepcion general
 
 ![Logs](images/Ex1.png)
 
+### Ejemplos JPA
+Este apartado muestra ejemplos de consultas realizadas usando **Spring Data JPA**, combinando **JPQL** y **query methods automáticos**.
+
+#### 1. Listar todos los libros
+- **Tipo:** query method (`findAll()`)  
+- **Propósito:** Mostrar todos los libros disponibles.  
+
+**Resultado en Postman:**  
+![JPA - Todos los libros](images/JPA1.png)  
+
+**Salida en logs:**  
+![JPA - Todos los libros](images/JPAV1.png) 
+
+#### 2. Libros posteriores a un año específico
+- **Tipo:** JPQL (@Query) y query method (findByAnioPublicacionGreaterThan) 
+- **Propósito:** Filtrar libros publicados después de un año determinado.  
+
+**Resultado en Postman:**  
+![JPA - Todos los libros](images/JPA2.png)  
+
+
+#### 3. Libros de una editorial y año específico
+- **Tipo:** query method (findByEditorialNombreAndAnioPublicacion)
+- **Propósito:** Filtrar libros publicados por una editorial en un año determinado. 
+
+**Resultado en Postman:**  
+![JPA - Todos los libros](images/JPA3.png)  
 
